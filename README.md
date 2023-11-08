@@ -121,8 +121,9 @@ Swagger UI access
   <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3ix0rFmo--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dmmxiwgyuzodl7yqyuca.jpeg" title="spring boot" alt="spring boot" width="80" height="40"/>&nbsp;
   <img src="https://miro.medium.com/v2/resize:fit:800/0*e3yFdW2ChuPGFery.png" title="spring data jpa" alt="spring data jpa" width="40" height="40"/>&nbsp;
   <img src="https://w7.pngwing.com/pngs/441/460/png-transparent-postgresql-plain-wordmark-logo-icon-thumbnail.png" title="postgres db" alt="postgres db" width="40" height="40"/>&nbsp;
-  <img src="https://miro.medium.com/v2/resize:fit:400/1*8puK5Pi4_5PZzFFgBtnUhw.jpeg" title="log4j2" alt="log4j2" width="60" height="40"/>&nbsp;
+  <img src="https://miro.medium.com/v2/resize:fit:400/1*8puK5Pi4_5PZzFFgBtnUhw.jpeg" title="log4j2" alt="log4j2" width="65" height="40"/>&nbsp;
   <img src="https://miro.medium.com/v2/resize:fit:1400/1*Jt34KK87zw10NOLYqU-CNQ.jpeg" title="lombok" alt="lombok" width="80" height="40"/>&nbsp;
-  <img src="https://miro.medium.com/v2/resize:fit:1400/1*R36nHDnQ9i7vizbSJqTb1g.png" title="swagger ui" alt="swagger ui" width="80" height="30"/>&nbsp;
+  <img src="https://miro.medium.com/v2/resize:fit:1400/1*R36nHDnQ9i7vizbSJqTb1g.png" title="swagger ui" alt="swagger ui" width="80" height="40"/>&nbsp;
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdKtFalkROGC87UayhcwUoI1jp3KP5ZKWhSim3izcfLw&s" title="swagger ui" alt="swagger ui" width="80" height="40"/>&nbsp;
 </div>
 	
