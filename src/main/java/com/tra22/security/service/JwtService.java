@@ -44,6 +44,9 @@ public class JwtService implements IJwtService {
     final String username = extractUsername(token);
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
+  public boolean isTokenExpired(String token) {
+    return extractExpiration(token).before(new Date());
+  }
   private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
     return Jwts
             .builder()
@@ -53,9 +56,6 @@ public class JwtService implements IJwtService {
             .setExpiration(new Date(System.currentTimeMillis() + expiration))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();
-  }
-  private boolean isTokenExpired(String token) {
-    return extractExpiration(token).before(new Date());
   }
   private Date extractExpiration(String token) {
     return extractClaim(token, Claims::getExpiration);

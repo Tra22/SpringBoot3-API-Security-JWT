@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
+    saveUserToken(savedUser, jwtToken, refreshToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
@@ -58,7 +59,7 @@ public class AuthenticationService implements IAuthenticationService {
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     revokeAllUserTokens(user);
-    saveUserToken(user, jwtToken);
+    saveUserToken(user, jwtToken, refreshToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
@@ -70,6 +71,8 @@ public class AuthenticationService implements IAuthenticationService {
     final String userEmail;
     if (authHeader == null ||!authHeader.startsWith("Bearer ")) throw new AppException();
     refreshToken = authHeader.substring(7);
+    if(jwtService.isTokenExpired(refreshToken)) throw new BadCredentialsException("The refresh token is expired!");
+    tokenRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new BadCredentialsException("The refresh token is invalid!"));
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
       var user = this.repository.findByEmail(userEmail)
@@ -77,7 +80,7 @@ public class AuthenticationService implements IAuthenticationService {
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user, accessToken);
+        saveUserToken(user, accessToken, refreshToken);
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -86,10 +89,11 @@ public class AuthenticationService implements IAuthenticationService {
     }
     throw new AppException();
   }
-  private void saveUserToken(User user, String jwtToken) {
+  private void saveUserToken(User user, String jwtToken, String refreshToken) {
     var token = Token.builder()
         .user(user)
         .token(jwtToken)
+        .refreshToken(refreshToken)
         .tokenType(TokenType.BEARER)
         .expired(false)
         .revoked(false)

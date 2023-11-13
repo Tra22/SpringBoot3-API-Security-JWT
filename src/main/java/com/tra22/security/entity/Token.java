@@ -28,6 +28,8 @@ public class Token {
 
   @Column(unique = true)
   public String token;
+  @Column(unique = true)
+  public String refreshToken;
 
   @Enumerated(EnumType.STRING)
   public TokenType tokenType = TokenType.BEARER;
