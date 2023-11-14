@@ -6,6 +6,7 @@ import com.tra22.security.exception.AppException;
 import com.tra22.security.exception.NotFoundEntityException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.*;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -37,6 +38,13 @@ public class Response<T> implements Serializable {
                 .builder()
                 .message("Success with no content.")
                 .code(AppStatusCode.SUCCESS.getCode())
+                .build();
+    }
+    public static Response<?> accessDeniedHandle(AccessDeniedException e, HttpServletRequest httpServletRequest) {
+        return Response.builder()
+                .code(AppStatusCode.AUTHENTICATION.getCode())
+                .metadata(getCurrentMetaData(httpServletRequest))
+                .data(ErrorContent.build("app.common.exception.access.denied", e.getMessage()))
                 .build();
     }
     public static Response<?> authenticationHandle(AuthenticationException e, HttpServletRequest httpServletRequest) {
